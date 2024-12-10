@@ -1,0 +1,119 @@
+name: Reviewdog
+
+on:
+  pull_request:
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  typos:
+    if: ${{ github.event.action != 'closed' }}
+    name: Typos
+    runs-on: ubuntu-22.04
+
+    permissions:
+      contents: read
+      pull-requests: write # Reviewdog comments on pull requests
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+            objects.githubusercontent.com:443
+            raw.githubusercontent.com:443
+            release-assets.githubusercontent.com:443
+
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+
+      - uses: reviewdog/action-typos@d5eb1bbcd1b3bfde596f6eeb470322727862fe98 # v1.19.0
+
+  actionlint:
+    if: ${{ github.event.action != 'closed' }}
+    name: Actionlint
+    runs-on: ubuntu-22.04
+
+    permissions:
+      contents: read
+      pull-requests: write # Reviewdog comments on pull requests
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+
+      - uses: reviewdog/action-actionlint@83e4ed25b168066ad8f62f5afbb29ebd8641d982 # v1.69.1
+
+  credo:
+    if: ${{ github.event.action != 'closed' }}
+    name: 'Credo'
+    runs-on: ubuntu-22.04
+
+    permissions:
+      contents: read
+      pull-requests: write # Reviewdog comments on pull requests
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            builds.hex.pm:443
+            github.com:443
+            objects.githubusercontent.com:443
+            raw.githubusercontent.com:443
+            release-assets.githubusercontent.com:443
+            repo.hex.pm:443
+
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+
+      - uses: erlef/setup-beam@e6d7c94229049569db56a7ad5a540c051a010af9 # v1.20.4
+        id: install
+        with:
+          otp-version: '27'
+          elixir-version: '1.17'
+
+      - uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
+        with:
+          key: builds@elixir-${{ steps.install.outputs.elixir-version }}-otp-${{ steps.install.outputs.otp-version }}-mix-${{ hashFiles('mix.lock') }}
+          path: |
+            deps
+            _build
+
+      - run: mix 'do' deps.get, deps.compile
+
+      - uses: reviewdog/action-setup@d8a7baabd7f3e8544ee4dbde3ee41d0011c3a93f # v1.5.0
+
+      - name: 'mix credo --strict | reviewdog'
+        run: |
+          mix credo suggest --strict --format=flycheck |
+            reviewdog \
+              -efm="%f:%l:%c: %t: %m" \
+              -efm="%f:%l: %t: %m" \
+              -name="credo" \
+              -reporter="github-pr-check" -level="error"
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ github.token }}

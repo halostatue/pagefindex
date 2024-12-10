@@ -1,0 +1,12 @@
+.ez
+/.elixir_ls/
+/.fetch/
+/_build/
+/cover/
+/deps/
+/doc/
+/tmp/
+tableau_social_extension-*.tar
+erl_crash.dump
+/priv/plts/
+!test/fixtures/*
