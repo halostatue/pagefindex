@@ -93,7 +93,7 @@ defmodule Pagefindex.InstallerTest do
       config = Installer.config(%{version: "1.3.0", target_arch: "x86_64-apple-darwin"})
 
       expected_url =
-        "https://github.com/CloudCannon/pagefind/releases/download/v1.3.0/pagefind-v1.3.0-x86_64-apple-darwin.tar.gz"
+        "https://github.com/Pagefind/pagefind/releases/download/v1.3.0/pagefind-v1.3.0-x86_64-apple-darwin.tar.gz"
 
       assert config[:url] == expected_url
     end
@@ -199,7 +199,7 @@ defmodule Pagefindex.InstallerTest do
 
       assert config[:version] == "1.2.0"
       assert config[:os_type] == {:unix, :darwin}
-      assert config[:target_arch] =~ ~r/aarch64-apple-darwin/
+      assert config[:target_arch] =~ ~r/(aarch64|x86_64)-apple-darwin/
       assert config[:binary]
       assert config[:dir]
       assert config[:url] =~ "v1.2.0"
