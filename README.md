@@ -3,7 +3,8 @@
 - code :: <https://github.com/halostatue/pagefindex>
 - issues :: <https://github.com/halostatue/pagefindex/issues>
 
-Runs [Pagefind](https://pagefind.app) search indexing for static sites. Works as a Tableau extension or standalone via Mix task.
+Runs [Pagefind](https://pagefind.app) search indexing for static sites. Works as
+a Tableau extension or standalone via Mix task.
 
 ## Installation
 
@@ -26,7 +27,7 @@ Documentation is found on [HexDocs][docs].
 Enable in your Tableau configuration:
 
 ```elixir
-config :tableau, Pagefindex,
+config :tableau, Pagefindex.Tableau,
   enabled: true
 ```
 
@@ -42,7 +43,9 @@ $ mix pagefind --use-version=1.4.0
 $ mix pagefind --version
 ```
 
-The extension automatically detects your package manager (`bun`, `pnpm`, `npm`) and runs the appropriate Pagefind command. See the [module documentation][docs] for configuration options.
+The extension automatically detects your package manager (`bun`, `pnpm`, `npm`)
+and runs the appropriate Pagefind command. See the [module documentation][docs]
+for configuration options.
 
 ## Semantic Versioning
 
