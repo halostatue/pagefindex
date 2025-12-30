@@ -69,13 +69,20 @@ defmodule ConfigTest do
 
     test "rejects invalid version formats" do
       invalid_versions = [
-        "1.4",           # 2-part version
-        "1",             # 1-part version
-        "1.4.0-gamma.1", # invalid pre-release type
-        "1.4.0-alpha",   # missing pre-release number
-        "1.4.0-alpha.a", # non-numeric pre-release
-        "v1.4.0",        # version prefix
-        "1.4.0.1"        # 4-part version
+        # 2-part version
+        "1.4",
+        # 1-part version
+        "1",
+        # invalid pre-release type
+        "1.4.0-gamma.1",
+        # missing pre-release number
+        "1.4.0-alpha",
+        # non-numeric pre-release
+        "1.4.0-alpha.a",
+        # version prefix
+        "v1.4.0",
+        # 4-part version
+        "1.4.0.1"
       ]
 
       for version <- invalid_versions do
