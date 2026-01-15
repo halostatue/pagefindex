@@ -1,10 +1,13 @@
 # Pagefindex
 
+[![Hex.pm][shield-hex]][hexpm] [![Hex Docs][shield-docs]][docs]
+[![Apache 2.0][shield-licence]][licence] ![Coveralls][shield-coveralls]
+
 - code :: <https://github.com/halostatue/pagefindex>
 - issues :: <https://github.com/halostatue/pagefindex/issues>
 
 Runs [Pagefind](https://pagefind.app) search indexing for static sites. Works as
-a Tableau extension or standalone via Mix task.
+a [Tableau][tableau] extension or standalone via Mix task.
 
 ## Installation
 
@@ -52,4 +55,13 @@ for configuration options.
 Pagefindex follows [Semantic Versioning 2.0][semver].
 
 [docs]: https://hexdocs.pm/pagefindex
+[hexpm]: https://hex.pm/packages/pagefindex
+[licence]: https://github.com/halostatue/pagefindex/blob/main/LICENCE.md
+[mdex]: https://hex.pm/packages/mdex
+[posts]: https://hexdocs.pm/tableau/Tableau.PostExtension.html
 [semver]: https://semver.org/
+[shield-coveralls]: https://img.shields.io/coverallsCoverage/github/halostatue/pagefindex?style=for-the-badge
+[shield-docs]: https://img.shields.io/badge/hex-docs-lightgreen.svg?style=for-the-badge "Hex Docs"
+[shield-hex]: https://img.shields.io/hexpm/v/pagefindex?style=for-the-badge "Hex Version"
+[shield-licence]: https://img.shields.io/hexpm/l/pagefindex?style=for-the-badge&label=licence "Apache 2.0"
+[tableau]: https://hex.pm/packages/tableau
