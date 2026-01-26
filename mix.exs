@@ -3,7 +3,7 @@ defmodule Pagefindex.MixProject do
 
   @app :pagefindex
   @project_url "https://github.com/halostatue/pagefindex"
-  @version "1.0.0"
+  @version "1.0.1"
 
   def project do
     [
@@ -86,7 +86,8 @@ defmodule Pagefindex.MixProject do
           filename: "APACHE-2.0.txt",
           title: "Apache License, version 2.0"
         ],
-        "licences/dco.txt": [filename: "dco.txt", title: "Developer Certificate of Origin"]
+        "licences/dco.txt": [filename: "dco.txt", title: "Developer Certificate of Origin"],
+        "usage-rules.md": [filename: "usage-rules.md", title: "Agent Usage Rules"]
       ],
       source_ref: "v#{@version}",
       source_url: @project_url,

@@ -6,7 +6,7 @@
 /deps/
 /doc/
 /tmp/
-tableau_social_extension-*.tar
+pagefindex-*.tar
 erl_crash.dump
 /priv/plts/
 !test/fixtures/*
