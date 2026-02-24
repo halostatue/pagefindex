@@ -211,7 +211,7 @@ config :pagefindex, :config,
   - `{:command, args}` - Custom command list
 
 - `:version` - Version specification (default: `:latest`)
-  - `:latest` - Use latest version
+  - `:latest` or `"latest"` - Use latest version
   - `"1.4.0"` - Exact version (validates exact match in `:global` mode)
 
 - `:args` - Additional Pagefind arguments (default: `[]`)
@@ -252,8 +252,8 @@ When using `:global` mode with a version string:
 2. **Custom command args** - When using `{:command, args}`, the args list should
    include the full command. The `:site` and `:args` config are still appended.
 
-3. **Version format** - Version must be a string (`"1.4.0"`) or `:latest`.
-   Complex requirements like `"~> 1.4"` are not supported.
+3. **Version format** - Version must be a string (`"1.4.0"`), `:latest` atom, or
+   `"latest"` string. Complex requirements like `"~> 1.4"` are not supported.
 
 4. **Local installation** - First run with `:local` downloads Pagefind, which
    may take time. Subsequent runs use the cached binary.

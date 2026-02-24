@@ -68,8 +68,6 @@ defmodule Pagefindex do
     config :pagefindex, :config,
       args: ["--verbose", "--force-language", "en"]
     ```
-
-
   """
 
   import Pagefindex.System

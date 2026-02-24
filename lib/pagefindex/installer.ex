@@ -5,7 +5,7 @@ defmodule Pagefindex.Installer do
 
   @latest_version "1.4.0"
 
-  def config(version) when is_binary(version) do
+  def config(version) when is_binary(version) or version == :latest do
     config(version: version)
   end
 

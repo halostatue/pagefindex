@@ -3,7 +3,7 @@ defmodule Pagefindex.MixProject do
 
   @app :pagefindex
   @project_url "https://github.com/halostatue/pagefindex"
-  @version "1.0.1"
+  @version "1.0.2"
 
   def project do
     [

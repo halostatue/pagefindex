@@ -8,7 +8,7 @@ defmodule Mix.Tasks.Pagefind do
 
   ```console
   $ mix pagefind
-  $ mix pagefind --command=bun
+  $ mix pagefind --run-with=bun
   $ mix pagefind --site=dist
   ```
 
@@ -147,6 +147,7 @@ defmodule Mix.Tasks.Pagefind do
   end
 
   defp with_version(config, nil), do: config
+  defp with_version(config, "latest"), do: Map.put(config, :version, :latest)
   defp with_version(config, version), do: Map.put(config, :version, version)
 
   defp with_passthrough_args(config, []), do: config
