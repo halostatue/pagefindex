@@ -18,12 +18,16 @@ defmodule Pagefindex.Config do
   def new(input \\ []) when is_list(input) or is_map(input) do
     base()
     |> Map.merge(Map.new(input))
+    |> normalize_version()
     |> validate()
   end
 
   def base do
     Map.merge(@defaults, Map.new(Application.get_env(:pagefindex, :config, %{})))
   end
+
+  defp normalize_version(%{version: "latest"} = config), do: %{config | version: :latest}
+  defp normalize_version(config), do: config
 
   def validate(config) do
     with :ok <- validate_run_with(config[:run_with]),

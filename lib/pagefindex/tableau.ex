@@ -16,7 +16,7 @@ if Code.ensure_loaded?(Tableau) do
     ```elixir
     config :tableau, Pagefindex.Tableau,
       enabled: true,
-      command: :auto,
+      run_with: :auto,
       args: [],
       debounce_ms: 2000,
       on_error: :warn
