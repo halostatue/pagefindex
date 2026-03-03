@@ -1,5 +1,16 @@
 # Pagefindex Changelog
 
+## 1.0.3 / 2026-03-02
+
+- Fixed `run_with: :auto` to ensure that `bunx`, `pnpx`, or `npx` exist before
+  trying to use a detected package manager. This improves execution in a Docker
+  or CI context.
+
+- Fall back to local installation if no usable package manager is found or a
+  global installation is not found.
+
+- Fixed a bug with local installation on the use of `:latest`.
+
 ## 1.0.2 / 2026-02-24
 
 - Fixed an issue with local installation.

@@ -9,10 +9,11 @@ defmodule MockSystem do
           status: :ok | :error,
           use_version: nil | binary(),
           version: binary() | pos_integer(),
-          command: list(binary()) | nil
+          command: list(binary()) | nil,
+          find_executable: boolean()
         }
 
-  @defaults %{find: false, mode: nil, version: "1.4.0", status: :ok, use_version: nil}
+  @defaults %{find: false, mode: nil, version: "1.4.0", status: :ok, use_version: nil, find_executable: true}
 
   def prepare(opts \\ []) do
     Process.put(:mock_state, Map.merge(@defaults, Map.new(opts)))
@@ -26,10 +27,24 @@ defmodule MockSystem do
     do_cmd(state!(:mode), command, args)
   end
 
-  def find_executable(_name) do
-    if state!(:mode) == :global and state(:find, false) do
-      "pagefind"
-    end
+  def find_executable("pagefind") do
+    if state(:find, false), do: "pagefind"
+  end
+
+  def find_executable("bunx") do
+    if state(:find_executable, true) and file_exists?("bun.lockb"), do: "bunx"
+  end
+
+  def find_executable("pnpx") do
+    if state(:find_executable, true) and file_exists?("pnpm-lock.yaml"), do: "pnpx"
+  end
+
+  def find_executable("npx") do
+    if state(:find_executable, true) and file_exists?("package-lock.json"), do: "npx"
+  end
+
+  def find_executable(_) do
+    nil
   end
 
   def halt(status), do: throw({:halt, status})
