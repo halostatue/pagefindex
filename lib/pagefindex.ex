@@ -39,9 +39,10 @@ defmodule Pagefindex do
 
       Auto detection decides between `:bun`, `:pnpm`, `:npm`, `:global`, and `:local` by
       looking for lockfiles in the current directory: `bun.lockb` (`:bun`),
-      `pnpm-lock.yaml` (`:pnpm`), `package-lock.json` (`:npm`). If no lockfiles are found,
-      `:global` (if `pagefind` is found in `$PATH`) or `:local` (download and install)
-      will be used.
+      `pnpm-lock.yaml` (`:pnpm`), `package-lock.json` (`:npm`). For each lockfile found,
+      the corresponding executable (`bunx`, `pnpx`, `npx`) must also be available. If no
+      lockfiles are found or executables are missing, falls back to `:global` (if
+      `pagefind` is found in `$PATH`) or `:local` (download and install).
 
     - `:bun`:  Forces Bun with `bunx pagefind`
     - `:pnpm`: Forces PNPM usage with `pnpx pagefind`
@@ -191,21 +192,32 @@ defmodule Pagefindex do
   defp filter_site_args([arg | old], new), do: filter_site_args(old, [arg | new])
 
   defp resolve_auto_run_with(config, opts) do
+    case try_package_manager_run_with(config) do
+      {:ok, result} -> {:ok, result}
+      :not_found -> try_fallback_run_with(config, opts)
+    end
+  end
+
+  defp try_package_manager_run_with(config) do
     cond do
-      file_exists?("bun.lockb") ->
+      file_exists?("bun.lockb") and find_executable("bunx") ->
         {:ok, {"bunx", pagefind_with_version("pagefind", config.version)}}
 
-      file_exists?("pnpm-lock.yaml") ->
+      file_exists?("pnpm-lock.yaml") and find_executable("pnpx") ->
         {:ok, {"pnpx", pagefind_with_version("pagefind", config.version)}}
 
-      file_exists?("package-lock.json") ->
+      file_exists?("package-lock.json") and find_executable("npx") ->
         {:ok, {"npx", pagefind_with_version("pagefind", config.version)}}
 
       true ->
-        case resolve_global_run_with(config, opts) do
-          {:ok, result} -> {:ok, result}
-          {:error, _} -> {:error, "No pagefind installation found"}
-        end
+        :not_found
+    end
+  end
+
+  defp try_fallback_run_with(config, opts) do
+    case resolve_global_run_with(config, opts) do
+      {:ok, result} -> {:ok, result}
+      {:error, _} -> resolve_local_run_with(config, opts)
     end
   end
 

@@ -228,11 +228,14 @@ config :pagefindex, :config,
 
 When `:run_with` is `:auto`, Pagefindex checks in order:
 
-1. `bun.lockb` exists → Use `:bun`
-2. `pnpm-lock.yaml` exists → Use `:pnpm`
-3. `package-lock.json` exists → Use `:npm`
+1. `bun.lockb` exists AND `bunx` executable found → Use `:bun`
+2. `pnpm-lock.yaml` exists AND `pnpx` executable found → Use `:pnpm`
+3. `package-lock.json` exists AND `npx` executable found → Use `:npm`
 4. `pagefind` in `$PATH` → Use `:global`
 5. Otherwise → Use `:local` (download and install)
+
+This ensures compatibility with environments like Docker where lockfiles exist but
+package manager executables may not be available.
 
 ## Version Validation
 

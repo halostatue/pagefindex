@@ -110,7 +110,6 @@ if Code.ensure_loaded?(Tableau) do
                 run_with: :auto,
                 version: :latest,
                 args: [],
-                # No debouncing
                 debounce_ms: 0,
                 on_error: :warn
               }
@@ -167,13 +166,9 @@ if Code.ensure_loaded?(Tableau) do
           site: %{config: %{out_dir: "_site"}}
         }
 
-        log =
-          capture_log(fn ->
-            assert {:ok, ^token} = Pagefindex.Tableau.post_write(token)
-          end)
-
-        # Should not log anything with ignore level
-        refute log =~ "[Pagefindex]"
+        refute capture_log(fn ->
+                 assert {:ok, ^token} = Pagefindex.Tableau.post_write(token)
+               end) =~ "[Pagefindex]"
       end
 
       test "raises error with fail level in non-server mode" do
@@ -244,7 +239,6 @@ if Code.ensure_loaded?(Tableau) do
                 run_with: :auto,
                 version: :latest,
                 args: [],
-                # 1 second debounce
                 debounce_ms: 1000,
                 on_error: :warn
               }

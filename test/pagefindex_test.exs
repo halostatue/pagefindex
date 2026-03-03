@@ -217,10 +217,9 @@ defmodule PagefindexTest do
       assert {:ok, _} = Pagefindex.pagefind(%{run_with: :auto, version: :latest, args: [], site: "_site"})
     end
 
-    test "returns error when no pagefind installation found" do
-      MockSystem.prepare(mode: nil, find: false)
-      config = %{run_with: :auto, version: :latest, args: [], site: "_site"}
-      assert {:error, "No pagefind installation found"} = Pagefindex.pagefind(config)
+    test "uses bunx when lockfile and executable both exist" do
+      MockSystem.prepare(mode: :bun, find_executable: true)
+      assert {:ok, _} = Pagefindex.pagefind(%{run_with: :auto, version: :latest, args: [], site: "_site"})
     end
   end
 
@@ -275,9 +274,7 @@ defmodule PagefindexTest do
     test "merges keyword list config" do
       Application.put_env(:pagefindex, :config, %{run_with: :global})
       assert {:ok, config} = Pagefindex.config(args: ["--verbose"])
-      # from app config
       assert config.run_with == :global
-      # from parameter
       assert config.args == ["--verbose"]
     end
 
