@@ -56,9 +56,9 @@ defmodule Pagefindex do
       processing details.
 
 
-  - `:version` (default `:latest`): Version requirement for pagefind. Accepts `:latest`,
-    exact versions like `"1.4.0"`, or simple requirements like `"~> 1.4"` or `">= 1.3.1"`.
-    Used with `:bun`, `:pnpm`, `:npm`, `:global`, and `:local` modes.
+  - `:version` (default `:latest`): Version requirement for pagefind. Accepts `:latest` or
+    exact versions like `"1.4.0"`. Used with `:bun`, `:pnpm`, `:npm`, `:global`, and
+    `:local` modes.
 
   - `:args` (default `[]`): Additional arguments passed to Pagefind.
 

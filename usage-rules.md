@@ -23,7 +23,6 @@ Automatic indexing after Tableau builds your site.
 # config/config.exs
 config :tableau, Pagefindex.Tableau,
   enabled: true,
-  site: "_site",
   run_with: :auto,
   debounce_ms: 2000,
   on_error: :warn
@@ -34,7 +33,9 @@ Configuration options:
 - `:enabled` (default `false`) - Enable/disable the extension
 - `:debounce_ms` (default `2000`) - Milliseconds between runs during dev server
 - `:on_error` - Error handling: `:fail`, `:warn` (default), or `:ignore`
-- All `Pagefindex` options (`:site`, `:run_with`, `:version`, `:args`)
+- All `Pagefindex` options (`:run_with`, `:version`, `:args`)
+
+The `:site` directory is automatically read from Tableau's output directory configuration.
 
 Alternative: Configure via `:pagefindex` instead:
 
@@ -44,7 +45,6 @@ config :tableau, Pagefindex.Tableau,
   debounce_ms: 2000
 
 config :pagefindex, :config,
-  site: "_site",
   run_with: :auto
 ```
 
@@ -53,7 +53,7 @@ config :pagefindex, :config,
 Manual indexing via command line.
 
 ```bash
-# Use default configuration
+# Use default configuration (defaults to "_site" if not configured)
 mix pagefind
 
 # Specify site directory
@@ -245,7 +245,6 @@ When using `:global` mode with a version string:
 - Different major versions produce errors
 - Older versions produce errors
 - Newer versions produce warnings
-- Use `validate: false` option to skip validation
 
 ## Common Gotchas
 
