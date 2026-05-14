@@ -1,5 +1,10 @@
 # Pagefindex Changelog
 
+## 1.0.4 / 2026-05-13
+
+- Fixed a typo found by [@christhekeele][christhekeele] and originally fixed in
+  [#9][pr-9].
+
 ## 1.0.3 / 2026-03-02
 
 - Fixed `run_with: :auto` to ensure that `bunx`, `pnpx`, or `npx` exist before
@@ -27,5 +32,7 @@
 
 - Initial release.
 
+[pr-9]: https://github.com/halostatue/pagefindex/pull/9
+[christhekeele]: https://github.com/christhekeele
 [kiro]: https://kiro.dev
 [urules]: https://github.com/ash-project/usage_rules

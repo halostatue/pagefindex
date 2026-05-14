@@ -24,7 +24,7 @@ defmodule Pagefindex do
   ## Configuration
 
   ```elixir
-  configure :pagefindex, :config,
+  config :pagefindex, :config,
     run_with: :auto,
     args: [],
     on_error: :warn,
